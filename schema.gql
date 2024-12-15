@@ -1,0 +1,32 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""users"""
+type User {
+  id: ID!
+  firstname: String!
+  lastname: String!
+  age: Int!
+  createdDate: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Query {
+  getUserById(id: String!): User!
+  filterByName(name: String!): [User!]!
+}
+
+type Mutation {
+  createUser(createUserInput: createUseInputDto!): User!
+}
+
+input createUseInputDto {
+  firstname: String!
+  lastname: String!
+  age: Float!
+}
