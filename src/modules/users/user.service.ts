@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { createUseInputDto } from './input/create-user.input';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from './object-types/user.object-type';
+import { UpdateUserInputDto } from './input/update-user.input';
+import { createUserInputDto } from './input/create-user.input';
 @Injectable()
 export class UserService {
   private readonly users: User[] = [
@@ -85,7 +86,7 @@ export class UserService {
     );
   }
 
-  create(data: createUseInputDto) {
+  create(data: createUserInputDto) {
     const createdUser: User = {
       ...data,
       id: String(Date.now()),
@@ -93,5 +94,17 @@ export class UserService {
     };
     this.users.push(createdUser);
     return createdUser;
+  }
+
+  updateById(id: string, data: UpdateUserInputDto) {
+    const index = this.users.findIndex((user) => user.id == id);
+    if (index == -1) {
+      throw new NotFoundException('user not found');
+    }
+    this.users[index] = {
+      ...this.users[index],
+      ...data,
+    };
+    return this.users[index];
   }
 }
